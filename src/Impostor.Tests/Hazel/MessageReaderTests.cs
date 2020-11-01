@@ -287,12 +287,12 @@ namespace Impostor.Tests.Hazel
             var messageExpected = new MessageWriter(1024);
 
             messageExpected.StartMessage(0);
-            messageExpected.StartMessage(1);
-            messageExpected.Write("HiTest");
-            messageExpected.EndMessage();
-            messageExpected.StartMessage(2);
-            messageExpected.Write("HiTest");
-            messageExpected.EndMessage();
+                messageExpected.StartMessage(1);
+                    messageExpected.Write("HiTest1");
+                messageExpected.EndMessage();
+                messageExpected.StartMessage(2);
+                    messageExpected.Write("HiTest2");
+                messageExpected.EndMessage();
             messageExpected.EndMessage();
 
             // Create message.
@@ -329,7 +329,7 @@ namespace Impostor.Tests.Hazel
                         Assert.Equal("RemoveMe!", messageSub.ReadString());
 
                         // Remove this message.
-                        // inner.RemoveMessage(messageSub);
+                        inner.RemoveMessage(messageSub);
                     }
                 }
                 else if (message.Tag == 2)
@@ -339,6 +339,9 @@ namespace Impostor.Tests.Hazel
             }
 
             // Check if the magic was successful.
+            var a = BitConverter.ToString(messageExpected.ToByteArray(true));
+            var b = BitConverter.ToString(messageWriter.ToByteArray(true));
+
             Assert.Equal(messageExpected.ToByteArray(true), messageWriter.ToByteArray(true));
         }
 
